@@ -1,0 +1,13 @@
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.swp
+
+# Local agent state
+.claude/settings.local.json
