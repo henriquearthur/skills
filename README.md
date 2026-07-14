@@ -46,13 +46,15 @@ Running agents with other agents: how work gets decomposed, dispatched, and gate
 
 **User-invoked**
 
+- **[build](./skills/orchestration/build/SKILL.md)** — Drive a set of issues through plan, build, review, and ship. You hold the map; Scouts find things out and Workers dig — one issue each, in their own worktree. Merges land on a single work branch; review and suite run once at the end; one MR/PR ships the whole set.
+
 - **[orchestrate-build](./skills/orchestration/orchestrate-build/SKILL.md)** — Drive a set of issues to completion. Your session becomes the orchestrator: it plans, dispatches Workers into one worktree per issue, gates the returned work against the issue as spec, and ships an MR/PR per issue. It watches fix-up cycles for recurring failures, and only stops to ask you about decisions that are genuinely yours.
 
 **Model-invoked**
 
-- **[model-tiers](./skills/orchestration/model-tiers/SKILL.md)** — Pick the model tier and reasoning effort for a subagent. Frontier tokens buy judgment; volume tokens buy coverage. Defaults to the middle tier and moves on evidence from the task, not on how important the task feels. Includes tier tables for Claude and Codex.
+- **[model-tiers](./skills/orchestration/model-tiers/SKILL.md)** — Pick the model tier and reasoning effort for a subagent — and what work stays out of your own seat. Frontier buys judgment; Engineering buys engineering; Utility buys coverage. Defaults from the task itself (changes → Engineering, finds-out → Utility), not from how important it feels. Includes tier tables for Claude and Codex.
 
-`orchestrate-build` reaches for `model-tiers` on every dispatch — that's the composition these are built for.
+`build` and `orchestrate-build` reach for `model-tiers` on every dispatch — that's the composition these are built for.
 
 ## Credits
 
