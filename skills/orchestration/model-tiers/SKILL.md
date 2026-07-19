@@ -22,10 +22,7 @@ boilerplate, log reduction, and documentation sweeps.
 Rules:
 
 - Work that **changes** something defaults to Engineering; work that only **finds something out** defaults to Utility. Move on evidence from the task itself, not its perceived importance.
-- Open judgment calls → one tier up. Mechanically verifiable output (it passes or it doesn't) → one tier down.
-- Tell the user the tier, model, and effort of every dispatch; the subagent itself never needs to know its model.
-- A follow-up to a live subagent is a dispatch like any other: re-state its tier, or the harness may silently re-resolve it to yours.
-- A stuck subagent stops and reports; re-dispatching it one tier up, with a narrower scope, is your call — and that is a dispatch, so you announce it like any other.
+- Tell the user the tier, model, and effort of every dispatch.
 
 ## Your own seat
 
@@ -52,6 +49,11 @@ Delegate bounded exploration, implementation, verification, and mechanical work.
 | Frontier    | GPT 5.6 Sol (Medium)   |
 | Engineering | GPT 5.6 Terra (Medium) |
 | Utility     | GPT 5.6 Luna (Low)     |
+
+When dispatching a subagent with an explicit `model` or `reasoning_effort`:
+- Use `fork_turns: "none"` or a bounded numeric fork.
+- Do not use `fork_turns: "all"`. 
+- Include all context required by the subtask in the spawn message when using `fork_turns: "none"`.
 
 ### Any other harness
 
