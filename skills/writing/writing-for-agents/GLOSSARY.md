@@ -199,7 +199,3 @@ _Failure mode._ An instruction that changes nothing because the model already do
 A leading word is a _technique_; No-Op is a _verdict_ on a line — and they cross. A leading word too weak to beat the default is a no-op (_be thorough_ when the agent is already thorough-ish), and the fix is a stronger word that passes the verdict (_relentless_), not a different technique. So the No-Op test — does it change behaviour versus the default? — is also how you grade whether a leading word is earning its repetitions. This is model-relative, not reader-relative: two people disagreeing over whether a line is a no-op disagree about the default, and settle it by running it, not by debate.
 
 _Avoid_: redundant instruction, restating the obvious, belaboring
-
----
-
-_Derived from the glossary in [`writing-great-skills`](https://github.com/mattpocock/skills) by Matt Pocock (MIT)._

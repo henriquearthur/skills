@@ -74,7 +74,3 @@ Use these to diagnose an agent misbehaving under instructions you wrote.
 - **Sediment** — stale layers that settle because adding feels safe and removing feels risky. The default fate of any always-loaded file without a pruning discipline; `CLAUDE.md` is where it accumulates fastest.
 - **Sprawl** — simply too long, even when every line is live and unique. The cure is the ladder: push **reference** down behind pointers, and split by **branch** so each path carries only what it needs.
 - **Premature completion** — ending work before it's genuinely done. Defence, in order: sharpen the completion criterion first (cheap, local); only if it's irreducibly fuzzy _and_ you observe the rush, hide what follows behind a real context boundary — a subagent dispatch or a hand-off, since inline material stays in context and clears nothing.
-
----
-
-_Derived from [`writing-great-skills`](https://github.com/mattpocock/skills) by Matt Pocock (MIT), widened from skills to every agent-facing surface._
