@@ -45,7 +45,9 @@ function parseFrontmatter(source) {
 }
 
 function linkTargets(source) {
-  return [...source.matchAll(/\[[^\]]*\]\(([^)\s]+)/g)]
+  // Links inside fenced code blocks are illustrative, not real targets.
+  const prose = source.replace(/^```[\s\S]*?^```/gm, "");
+  return [...prose.matchAll(/\[[^\]]*\]\(([^)\s]+)/g)]
     .map((match) => match[1])
     .filter((target) => !/^(https?:|mailto:|#)/.test(target))
     .map((target) => target.split("#")[0])
