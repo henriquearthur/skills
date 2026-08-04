@@ -56,9 +56,23 @@ Running agents with other agents: how work gets decomposed, dispatched, and gate
 
 `build` and `orchestrate-build` reach for `model-tiers` on every dispatch — that's the composition these are built for.
 
+### Writing
+
+Text that gets read by a model, or by a human with an agent looking over their shoulder.
+
+**User-invoked**
+
+- **[writing-for-agents](./skills/writing/writing-for-agents/SKILL.md)** — Reference for writing any text a model reads: `CLAUDE.md`, `AGENTS.md`, subagent definitions, tool and MCP descriptions, system prompts, hook output, memory. Which rung a line belongs on, how trigger text earns its always-loaded place, and the failure modes — no-ops, negation, sediment, sprawl — to diagnose against. Ships with a [glossary](./skills/writing/writing-for-agents/GLOSSARY.md) as its disclosed reference.
+
+**Model-invoked**
+
+- **[atomic-docs](./skills/writing/atomic-docs/SKILL.md)** — Build documentation as a graph of atoms: one reader need each, canonical for the facts it owns, reachable from a thin index. Use it to restructure monolithic or fragmented docs, organise agent context for selective retrieval, or audit a doc set for scope, duplication, discoverability, and drift.
+
 ## Credits
 
 Inspired by [mattpocock/skills](https://github.com/mattpocock/skills) — the shape of this repo, and the user-invoked / model-invoked split I use to organise it, both come from there. Go read his too.
+
+`writing-for-agents` is a direct derivative of Matt's `writing-great-skills` (MIT): same vocabulary and same principles, widened from skills to every agent-facing surface. The good parts are his.
 
 ## License
 
