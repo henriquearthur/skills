@@ -4,7 +4,7 @@ This repo publishes agent skills. Its only artifacts are Markdown files — ther
 
 ## Layout
 
-Skills are grouped into buckets by domain: `skills/<bucket>/<skill-name>/SKILL.md`, every directory kebab-case. Today there is one bucket — `orchestration/` (running agents with other agents: decomposing, dispatching, gating). A new skill that doesn't fit an existing bucket gets a new bucket rather than being forced into a bad one; a bucket exists only once a skill lives in it.
+Skills are grouped into buckets by domain: `skills/<bucket>/<skill-name>/SKILL.md`, every directory kebab-case. Today there are two buckets — `orchestration/` (running agents with other agents: decomposing, dispatching, gating) and `writing/` (documents an agent produces, for a model or a human to read). A new skill that doesn't fit an existing bucket gets a new bucket rather than being forced into a bad one; a bucket exists only once a skill lives in it.
 
 Optional sibling files hold anything the skill doesn't need on every run (long reference tables, harness-specific mechanics); `SKILL.md` links to them so the agent loads them on demand.
 
