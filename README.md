@@ -25,7 +25,7 @@ Each skill is a plain directory. Copy or symlink the ones you want into your age
 
 ```bash
 git clone https://github.com/henriquearthur/skills.git
-ln -s "$PWD/skills/orchestration/orchestrate-build" ~/.claude/skills/orchestrate-build
+ln -s "$PWD/skills/orchestration/build" ~/.claude/skills/build
 ```
 
 Use `~/.claude/skills` for Claude Code, `~/.codex/skills` for Codex, or the project-local `.claude/skills` to scope a skill to one repo. Symlinking (rather than copying) means `git pull` keeps your installed skills current.
@@ -36,7 +36,7 @@ Use `~/.claude/skills` for Claude Code, `~/.codex/skills` for Codex, or the proj
 
 Skills live in buckets under `skills/`, one bucket per domain. Within a bucket they split on one axis — **who can invoke them**.
 
-**User-invoked** skills are reachable only when you type them (`/orchestrate-build`). They own a whole flow from start to finish, and they burn a lot of tokens, so you decide when they run.
+**User-invoked** skills are reachable only when you type them (`/build`). They own a whole flow from start to finish, and they burn a lot of tokens, so you decide when they run.
 
 **Model-invoked** skills can be typed by you _or_ reached for by the agent on its own when the task fits. They hold reusable discipline that other skills lean on.
 
@@ -46,33 +46,27 @@ Running agents with other agents: how work gets decomposed, dispatched, and gate
 
 **User-invoked**
 
-- **[build](./skills/orchestration/build/SKILL.md)** — Drive a set of issues through plan, build, review, and ship. You hold the map; Scouts find things out and Workers dig — one issue each, in their own worktree. Merges land on a single work branch; review and suite run once at the end; one MR/PR ships the whole set.
-
-- **[orchestrate-build](./skills/orchestration/orchestrate-build/SKILL.md)** — Drive a set of issues to completion. Your session becomes the orchestrator: it plans, dispatches Workers into one worktree per issue, gates the returned work against the issue as spec, and ships an MR/PR per issue. It watches fix-up cycles for recurring failures, and only stops to ask you about decisions that are genuinely yours.
+- **[build](./skills/orchestration/build/SKILL.md)** — Drive a set of issues through plan, build, review, and ship. You hold the plan; Scouts find things out — including each issue's lineage, the spec and decisions it was cut from — and Workers dig, one issue each, in their own worktree. Merges land on a single work branch; review and suite run once at the end; one MR/PR ships the whole set.
 
 **Model-invoked**
 
-- **[model-tiers](./skills/orchestration/model-tiers/SKILL.md)** — Pick the model tier and reasoning effort for a subagent — and what work stays out of your own seat. Frontier buys judgment; Engineering buys engineering; Utility buys coverage. Defaults from the task itself (changes → Engineering, finds-out → Utility), not from how important it feels. Includes tier tables for Claude and Codex.
+- **[model-tiers](./skills/orchestration/model-tiers/SKILL.md)** — Pick a subagent's tier: the model and reasoning effort it gets. One question prices a dispatch — who decides? Frontier decides, Engineering carries out a decision already made, Utility only looks and reports. Includes the brief every tier subagent starts from, and tier tables for Claude and Codex.
 
-`build` and `orchestrate-build` reach for `model-tiers` on every dispatch — that's the composition these are built for.
+`build` reaches for `model-tiers` on every dispatch — that's the composition these are built for.
 
 ### Writing
 
-Text that gets read by a model, or by a human with an agent looking over their shoulder.
-
-**User-invoked**
-
-- **[writing-for-agents](./skills/writing/writing-for-agents/SKILL.md)** — Reference for writing any text a model reads: `CLAUDE.md`, `AGENTS.md`, subagent definitions, tool and MCP descriptions, system prompts, hook output, memory. Which rung a line belongs on, how trigger text earns its always-loaded place, and the failure modes — no-ops, negation, sediment, sprawl — to diagnose against. Ships with a [glossary](./skills/writing/writing-for-agents/GLOSSARY.md) as its disclosed reference.
+Documents an agent produces: for a model to read, or for a human to.
 
 **Model-invoked**
+
+- **[html-communication](./skills/writing/html-communication/SKILL.md)** — Deliver a write-up — plan, spec, findings, comparison — or a UI mock as one self-contained HTML file, published to a URL. Dense and scannable like a spec, everything inline, no decorative chrome; publishing is part of the task, not a separate ask.
 
 - **[atomic-docs](./skills/writing/atomic-docs/SKILL.md)** — Build documentation as a graph of atoms: one reader need each, canonical for the facts it owns, reachable from a thin index. Use it to restructure monolithic or fragmented docs, organise agent context for selective retrieval, or audit a doc set for scope, duplication, discoverability, and drift.
 
 ## Credits
 
 Inspired by [mattpocock/skills](https://github.com/mattpocock/skills) — the shape of this repo, and the user-invoked / model-invoked split I use to organise it, both come from there. Go read his too.
-
-`writing-for-agents` is a direct derivative of Matt's `writing-great-skills` (MIT): same vocabulary and same principles, widened from skills to every agent-facing surface. The good parts are his.
 
 ## License
 

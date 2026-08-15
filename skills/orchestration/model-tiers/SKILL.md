@@ -1,60 +1,63 @@
 ---
 name: model-tiers
-description: Pick the model tier and reasoning effort for a subagent — and what work stays out of your own seat. Use when dispatching subagents, or before doing multi-step mechanical work yourself.
+description: Pick a subagent's tier — the model and reasoning effort it gets. Use when dispatching a subagent, or when a skill names the tier Frontier, Engineering, or Utility.
 ---
 
 # Model Tiers
 
-Match the model to the workload — every dispatch trades quality, latency, and cost.
-Frontier buys judgment; Engineering buys engineering; Utility buys coverage.
+One question prices a dispatch: **who decides?**
+
+Frontier decides. Engineering carries out a decision already made. Utility decides nothing at all — it looks, and reports.
+
+Sort on evidence from the task itself, never on how important it feels.
 
 ## Picking a tier
 
-- **Frontier** — open-ended judgment: decomposition, architecture, security, difficult debugging, tradeoffs,
-conflict resolution, final synthesis, and final review.
+- **Utility** — finding out: scouting an issue's lineage, taking inventory, running a suite, reading logs and pipelines. It reports what is there; nobody has to go looking for what isn't.
 
-- **Engineering** — bounded engineering: repository exploration requiring synthesis, multi-file implementation,
-scoped debugging, tests, refactors, and verification.
+- **Engineering** — carrying out: infra whose shape was decided upstream, a fix-up against a review's findings, a mechanical transformation across many files. 
 
-- **Utility** — mechanical coverage: literal searches, extraction, formatting, file operations, repetitive edits,
-boilerplate, log reduction, and documentation sweeps.
+- **Frontier** — deciding: the shape is still open, and settling it changes what everything downstream builds against. That work is yours, so it is rarely a dispatch at all.
 
-Rules:
-
-- Work that **changes** something defaults to Engineering; work that only **finds something out** defaults to Utility. Move on evidence from the task itself, not its perceived importance.
-- Tell the user the tier, model, and effort of every dispatch.
+Say the tier, the model, and the effort out loud in every dispatch.
 
 ## Your own seat
 
-The rules above are about who you dispatch. This one is about you.
+Frontier is your seat, and that is mostly where it stays — it is the tier you spend, not the one you fall back to. The plan, the order the work runs in, a merge conflict, a subagent that came back blocked, the scope: dispatching one of those buys a second opinion on a question only you can close, at the one price you are already paying.
 
-Keep the orchestrator on Frontier work: decomposition, delegation, tradeoffs, conflict resolution, and final synthesis.
+So settle the open question first, then dispatch. Once the shape is fixed, the work left over is Engineering.
 
-Delegate bounded exploration, implementation, verification, and mechanical work. Require compact reports containing conclusions, evidence, changed files, tests, risks, and blockers.
+## The brief
+
+Start every tier subagent clean, carrying none of your history. Its brief is then its whole world, so the brief holds every constraint that binds the work and nothing it has to go looking for. A subagent handed your history inherits your seat along with it — same model, same effort, same price — and the tier you picked never happens.
+
+Close every brief with this, whatever the tier:
+
+> Gather in one shot — put the whole inspection into a single script and read its output at once. Read only what you have not already read. The worktree is yours alone — nobody else is writing to it. Come back with a short handoff: result, verification, files touched.
 
 ## Models
 
-### If you are Claude
+The one part to touch when a harness changes.
 
-| Tier        | Default         | On user request only |
-|-------------|-----------------|----------------------|
-| Frontier    | Opus 4.8 (High) | Fable 5 (High)       |
-| Engineering | Sonnet 5 (High) | Opus 4.8 (High)      |
-| Utility     | Sonnet 5 (Low)  | N/A                  |
+### Codex
 
-### If you are Codex
+| Tier        | Model                 |
+|-------------|-----------------------|
+| Frontier    | GPT 5.6 Sol (Low)     |
+| Engineering | GPT 5.6 Luna (Max)    |
+| Utility     | GPT 5.6 Luna (Medium) |
 
-| Tier        | Model                  |
-|-------------|------------------------|
-| Frontier    | GPT 5.6 Sol (Medium)   |
-| Engineering | GPT 5.6 Terra (Medium) |
-| Utility     | GPT 5.6 Luna (Low)     |
+Codex honours a per-spawn model and effort only when the spawn carries `fork_turns: "none"` — so put everything the subtask needs into the brief. With `fork_turns: "all"` the subagent runs at your model and your effort, whatever the tier said.
 
-When dispatching a subagent with an explicit `model` or `reasoning_effort`:
-- Use `fork_turns: "none"` or a bounded numeric fork.
-- Do not use `fork_turns: "all"`. 
-- Include all context required by the subtask in the spawn message when using `fork_turns: "none"`.
+### Claude Code
 
-### Any other harness
+| Tier        | Model  |
+|-------------|--------|
+| Frontier    | Opus 5 |
+| Engineering | Opus 5 |
+| Utility     | Opus 5 |
 
-Use the models available to you, same principle: Frontier for judgment, Engineering for engineering, and Utility for mechanics. Set reasoning effort intentionally.
+### Other harnesses
+
+Same ladder with what you have: judgment at the top, bounded engineering in the middle, mechanics at the bottom.
+Set the effort deliberately.
