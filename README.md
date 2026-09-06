@@ -46,13 +46,23 @@ Running agents with other agents: how work gets decomposed, dispatched, and gate
 
 **User-invoked**
 
-- **[build](./skills/orchestration/build/SKILL.md)** — Drive a set of issues through plan, build, review, and ship. You hold the plan; Scouts find things out — including each issue's lineage, the spec and decisions it was cut from — and Workers dig, one issue each, in their own worktree. Merges land on a single work branch; review and suite run once at the end; one MR/PR ships the whole set.
+- **[build](./skills/orchestration/build/SKILL.md)** — Drive a spec's tickets to a merged PR. You coordinate: scouts answer the open questions, workers implement one frontier ticket each in their own worktree, mergers land the branches, and a reviewer that never wrote the code closes it out.
+
+- **[wave-review](./skills/orchestration/wave-review/SKILL.md)** — Run code review in waves until a wave comes back with zero findings. Leans on the `thermo-nuclear-code-quality-review` skill, which lives outside this repo.
 
 **Model-invoked**
 
-- **[model-tiers](./skills/orchestration/model-tiers/SKILL.md)** — Pick a subagent's tier: the model and reasoning effort it gets. One question prices a dispatch — who decides? Frontier decides, Engineering carries out a decision already made, Utility only looks and reports. Includes the brief every tier subagent starts from, and tier tables for Claude and Codex.
+- **[model-tiers](./skills/orchestration/model-tiers/SKILL.md)** — Pick a subagent's tier: the model and reasoning effort it gets. Tier B for mechanical work, Tier A as the default, Tier S when reasoning depth is the point. One table per harness, Claude Code and Codex.
 
 `build` reaches for `model-tiers` on every dispatch — that's the composition these are built for.
+
+### Delivery
+
+Getting finished work merged.
+
+**Model-invoked**
+
+- **[babysit-pr](./skills/delivery/babysit-pr/SKILL.md)** — Drive a PR/MR to green. A loop, not a report: poll the remote, read the full CI finding, fix, push, poll again, and only hand back once there are no conflicts and the pipeline passes.
 
 ### Writing
 
@@ -60,7 +70,7 @@ Documents an agent produces: for a model to read, or for a human to.
 
 **Model-invoked**
 
-- **[html-communication](./skills/writing/html-communication/SKILL.md)** — Deliver a write-up — plan, spec, findings, comparison — or a UI mock as one self-contained HTML file, published to a URL. Dense and scannable like a spec, everything inline, no decorative chrome; publishing is part of the task, not a separate ask.
+- **[html-communication](./skills/writing/html-communication/SKILL.md)** — Deliver a write-up — plan, spec, findings, comparison — or a UI mock as one self-contained HTML page published to a URL. Structure follows the subject and the reader, and publishing is part of the task, not a separate ask.
 
 - **[atomic-docs](./skills/writing/atomic-docs/SKILL.md)** — Build documentation as a graph of atoms: one reader need each, canonical for the facts it owns, reachable from a thin index. Use it to restructure monolithic or fragmented docs, organise agent context for selective retrieval, or audit a doc set for scope, duplication, discoverability, and drift.
 

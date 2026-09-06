@@ -4,66 +4,54 @@ description: Drive a set of issues through plan, build, review, and ship
 disable-model-invocation: true
 ---
 
-# Build
+You have been given a spec with tickets that describe how to implement it.
 
-You hold the plan. Two kinds of subagent do the digging:
+The tickets are not a list of steps. They are a **task graph** with blocking relationships, so there is always a **frontier** of tickets ready to be grabbed.
 
-- **Scouts** find things out — issue text, how a module works, a suite's failures, a pipeline's logs. They report; they change nothing.
-- **Workers** build. One issue each, in their own worktree.
+You are the **coordinator**. Delegate the substantive work, keep approvals with you and the user, and stay in conversation while the team runs. Never disappear into a long silent stretch.
 
-Every dispatch names a tier, and `/model-tiers` resolves it: Scouts run at Utility by default, Workers at Engineering. Nothing here dispatches at Frontier.
+Talk to subagents through **context pointers**: paths to the spec, the tickets, the scout notes, and previous commits. Never restate what a pointer already reaches.
 
-Some work stays in your hands because dispatching it costs more than doing it — cutting and removing worktrees, merges and their conflicts, the push, opening the MR/PR, and any read one command long. Past that line, anything you would learn by running commands a Scout learns for you.
+## The team
 
-You are the one thread alive for the whole session, and every report lands in your context for good — so brief both kinds to come back **bounded**.
+Pick each agent's model with the `model-tiers` skill.
 
-## 1. Plan
+**Scout** - Tier A. Answers one question. Give it the question and the pointers it starts from. It reads code, docs, and prior commits until the question is answered, writes its notes as markdown outside the repo, and returns only that path.
 
-An issue is a leaf. `/to-tickets` cut it from a spec, `/to-spec` synthesised that spec from a discussion, and `/wayfinder` may have charted the discussion first as a map of decision tickets. The issue reads short because the reasoning stayed upstream.
+**Worker** - Tier A. Implements one frontier ticket in its own worktree on its own branch.
+Give it pointers to the ticket, the spec, and the scout notes that bear on it. It writes
+the code and the tests, stays inside the ticket's scope, and returns once every acceptance
+criterion holds and the branch is committed green.
 
-So Scouts pull each issue's **lineage**, following the trail presented by the Issue Tracker:
+**Merger** - Tier B. Brings one finished worker branch into the PR branch. Give it the two
+branches and the ticket the work closes. It resolves conflicts in favour of both intents,
+keeps the PR branch green, and returns the merge commit.
 
-- **The leaf** — full body, acceptance criteria, comments, blocking edges.
-- **Upstream** — the spec it was cut from: its implementation decisions, testing decisions, seams, and out-of-scope. Past that, the wayfinder map and the closed decision tickets whose answers bind this issue.
-- **Prototypes** — where the issue points at a `prototype/<name>` branch, that code is a primary source: it is the answer a design question already got. Scout what it settled, not how it was written.
-- **Standing** — the ADRs governing the area, and the domain glossary the issue's vocabulary comes from.
+**Reviewer** - Tier S. Never yourself, and never the agent that wrote the code.
 
-Issues cut from one spec share one lineage: scout the spec and the map **once** for the set, and per-issue only the leaf.
+## Waiting
 
-A Scout reports what **binds** its issue — decisions locked, terms to use, seams to test at, boundaries the spec drew — never a re-dump of what it read.
+Slow is not stuck.
 
-Then the gaps: where the lineage is silent on something the issue needs, or where spec and leaf disagree, ask the user — Scouts can't.
+Interrupt only on evidence — an agent asking for a decision, a crash, an idle worktree
+well past its window — never because the wait feels long.
 
-Map the dependencies, then sort each issue by what finishes it:
+## Steps
 
-- **Code** — application behavior, and the only kind TDD serves. Where behavior is observable at a testable seam, agree the seams with the user and mark the issue for `/tdd`. Where the seam itself is the open question — how deep the module goes, what its interface exposes — settle it in `/codebase-design`'s vocabulary before the Worker builds against it.
+1. Read the spec and the tickets until you can name every ticket, its blockers, and the current frontier.
 
-- **Infra** — CI/CD pipelines, Kubernetes manifests, Helm, Kustomize, environment config. Nothing here can go red before it exists; it is proven by applying it and watching the environment. Mark how each one gets verified there.
+2. (optional) Send **scouts** for the exploration the tickets need, in codebase files or external docs. Their notes let workers implement instead of explore.
 
-Present the plan — issues, kind, seams, and the decisions the lineage already fixed. The build starts when the user confirms.
+3. Create the branches and draft PRs the spec needs, across as many repositories as it touches. Each PR references the spec and closes only the tickets it completes. The PR that completes the spec closes the spec issue.
 
-## 2. Build
+4. Dispatch one **worker** per frontier ticket, in the background, each in its own worktree on its own branch.
 
-On the base branch? Cut a conventionally-named work branch.
+5. When a worker finishes, merge its branch into the PR branch with a **merger**.
 
-One Worker per issue, each in a worktree on a branch off the work branch. Independent issues run in parallel; dependents wait. A Worker's brief carries the issue text, acceptance criteria, the lineage that binds it, the scope boundary, and the stop rule: blocked or ambiguous → stop and report. Give the lineage as settled constraints the Worker builds to — not as reading it should go verify. Code issues run `/tdd` at the agreed seams; infra issues run their verification in the target environment.
+6. Dispatch workers for any tickets that merge puts on the frontier, right away.
 
-A blocked Worker stops and reports. Resolve it yourself from the lineage and the plan — most blocks are a question the spec or a closed decision ticket already answered — noting each call you make on the user's behalf; bring the user only what is genuinely theirs — destructive, or a change to the agreed scope.
+7. Once every ticket is closed, run the `code-review` skill on the PR branch. Fix everything it raises in a single worker.
 
-Some infra blocks are neither: a step only a human can take — provisioning, credentials, CI secrets, a third-party dashboard. Build the user a `/wizard` for it, and keep dispatching whatever doesn't depend on what it produces.
+8. Mark the PR ready for review.
 
-An issue is built when its branch merges into the work branch. Resolve the conflicts, delete the worktree, dispatch whatever was waiting on it.
-
-## 3. Review
-
-When the last issue is merged, a Scout runs the suite on the work branch and reports the failures. Then `/code-review`, at Engineering — the issues **and the spec they were cut from** as spec, the commit the build started from as fixed point. Findings go to a fix-up Worker; re-review what it changed, at that same tier.
-
-Done when the review is clean and the suite passes.
-
-## 4. Ship
-
-Remote — push, open one MR/PR linking the issues, targeting the base branch. A Scout follows the pipeline and reports failures; you decide each fix and dispatch it. Merge only if the user said so.
-
-No remote — merge the work branch into the base branch.
-
-Report the MR/PR (or merge SHA), each issue's commit SHA and review outcome, and the calls you made on the user's behalf.
+9. Remove every worker worktree.
