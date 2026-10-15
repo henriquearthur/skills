@@ -1,0 +1,4 @@
+interface:
+  display_name: "Outpost"
+  short_description: "Publish and manage self-contained HTML Pages on Outpost"
+  default_prompt: "Use $outpost to publish a self-contained HTML file or manage a Page on Outpost."
