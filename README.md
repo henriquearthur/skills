@@ -66,14 +66,6 @@ Getting finished work merged.
 
 - **[babysit-pr](./skills/delivery/babysit-pr/SKILL.md)** — Drive a PR/MR to green. A loop, not a report: poll the remote, read the full CI finding, fix, push, poll again, and only hand back once there are no conflicts and the pipeline passes.
 
-### Publishing
-
-Putting a finished artifact somewhere people can open it.
-
-**Model-invoked**
-
-- **[outpost](./skills/publishing/outpost/SKILL.md)** — Publish a self-contained HTML file to [Outpost](https://www.npmjs.com/package/@henriquearthur/outpost) and manage it afterwards: update in place, mint expiring share links, list, delete. Private by default; an expiring link when sharing.
-
 ### Writing
 
 Documents an agent produces: for a model to read, or for a human to.
