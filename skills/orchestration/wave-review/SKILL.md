@@ -1,6 +1,6 @@
 ---
 name: wave-review
-description: Run a wave review using thermo nuclear code quality review
+description: Run a wave review using thermo nuclear code quality review.
 disable-model-invocation: true
 ---
 

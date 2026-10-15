@@ -1,0 +1,4 @@
+interface:
+  display_name: "Atomic Docs"
+  short_description: "Create focused, retrievable project docs"
+  default_prompt: "Use $atomic-docs to turn this documentation into canonical atoms with explicit routing."

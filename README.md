@@ -46,21 +46,23 @@ Running agents with other agents: how work gets decomposed, dispatched, and gate
 
 **User-invoked**
 
-- **[build](./skills/orchestration/build/SKILL.md)** — Drive a spec's tickets to a merged PR. You coordinate: scouts answer the open questions, workers implement one frontier ticket each in their own worktree, mergers land the branches, and a reviewer that never wrote the code closes it out.
+- **[build](./skills/orchestration/build/SKILL.md)** — Drive a spec's tickets to a merged PR. You coordinate: scouts answer the open questions, workers implement one frontier ticket each in their own worktree, mergers land the branches, and a reviewer that never wrote the code closes it out. Leans on the `code-review` and `tdd` skills, which live outside this repo.
 
 - **[wave-review](./skills/orchestration/wave-review/SKILL.md)** — Run code review in waves until a wave comes back with zero findings. Leans on the `thermo-nuclear-code-quality-review` skill, which lives outside this repo.
 
 **Model-invoked**
 
-- **[model-tiers](./skills/orchestration/model-tiers/SKILL.md)** — Pick a subagent's tier: the model and reasoning effort it gets. Tier B for mechanical work, Tier A as the default, Tier S when reasoning depth is the point. One table per harness, Claude Code and Codex.
+- **[subagent-models](./skills/orchestration/subagent-models/SKILL.md)** — Pick a subagent's model and effort by what each model is best at, and name both on every spawn so nothing silently inherits your model and your price. One reference per harness, Claude Code and Codex.
 
-`build` reaches for `model-tiers` on every dispatch — that's the composition these are built for.
+`build` reaches for `subagent-models` on every dispatch — that's the composition these are built for.
 
 ### Delivery
 
 Getting finished work merged.
 
 **Model-invoked**
+
+- **[pr](./skills/delivery/pr/SKILL.md)** — Ship finished work as a PR/MR: branch naming, Conventional Commits, a title that states the effect in plain language, then hand off to `babysit-pr`.
 
 - **[babysit-pr](./skills/delivery/babysit-pr/SKILL.md)** — Drive a PR/MR to green. A loop, not a report: poll the remote, read the full CI finding, fix, push, poll again, and only hand back once there are no conflicts and the pipeline passes.
 
@@ -69,8 +71,6 @@ Getting finished work merged.
 Documents an agent produces: for a model to read, or for a human to.
 
 **Model-invoked**
-
-- **[html-communication](./skills/writing/html-communication/SKILL.md)** — Deliver a write-up — plan, spec, findings, comparison — or a UI mock as one self-contained HTML page published to a URL. Structure follows the subject and the reader, and publishing is part of the task, not a separate ask.
 
 - **[atomic-docs](./skills/writing/atomic-docs/SKILL.md)** — Build documentation as a graph of atoms: one reader need each, canonical for the facts it owns, reachable from a thin index. Use it to restructure monolithic or fragmented docs, organise agent context for selective retrieval, or audit a doc set for scope, duplication, discoverability, and drift.
 

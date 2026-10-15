@@ -1,0 +1,6 @@
+interface:
+  display_name: "Build"
+  short_description: "Drive issues through plan, build, review, and ship"
+  default_prompt: "Use $build to drive a set of issues through plan, build, review, and ship with scouts and workers."
+policy:
+  allow_implicit_invocation: false
